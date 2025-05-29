@@ -40,6 +40,16 @@ export default class SortableTable extends HTMLElement {
     this._init()
   }
 
+  disconnectedCallback() {
+    const table = this.querySelector('table')
+    if (!table) return
+    const headers = Array.from(table.querySelectorAll('th'))
+    headers.forEach((th, idx) => {
+      th.style.cursor = ''
+      th.removeEventListener('click', () => this._sortByColumn(idx))
+    })
+  }
+
   _init() {
     const table = this.querySelector('table')
     if (!table) return
