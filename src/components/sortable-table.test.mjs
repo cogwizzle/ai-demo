@@ -5,6 +5,9 @@ let table
 
 const randomPrefix = () => Math.random().toString(36).substring(2, 15)
 
+/**
+ * @param {string} title
+ */
 function addRow(title) {
   const row = document.createElement('tr')
   const cell = document.createElement('td')
