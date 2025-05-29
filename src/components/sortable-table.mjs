@@ -28,6 +28,7 @@
  *     </tbody>
  *   </table>
  * </sortable-table>
+ * ```
  */
 export default class SortableTable extends HTMLElement {
   constructor() {
