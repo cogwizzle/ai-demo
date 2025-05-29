@@ -57,6 +57,12 @@ describe('Sortable Table Tests', () => {
     if (!header) {
       throw new Error('Header not found in the table')
     }
+    if ('click' in header === false) {
+      throw new Error('Header does not support click event')
+    }
+    if (typeof header.click !== 'function') {
+      throw new Error('Header click method is not a function')
+    }
     header?.click()
 
     // Wait for sorting to complete
