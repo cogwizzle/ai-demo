@@ -40,6 +40,13 @@ async function setup() {
   })
 }
 
+/**
+ * @param {number} [ms] - The number of milliseconds to wait
+ */
+async function wait(ms = 0) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 before(setup)
 
 describe('Sortable Table Tests', () => {
@@ -66,7 +73,7 @@ describe('Sortable Table Tests', () => {
     header?.click()
 
     // Wait for sorting to complete
-    await new Promise((resolve) => setTimeout(resolve, 100))
+    await wait(100)
 
     const rows = table?.querySelectorAll('tbody tr')
     if (!rows) {
