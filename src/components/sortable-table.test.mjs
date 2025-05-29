@@ -1,0 +1,59 @@
+import SortableTable from './sortable-table.mjs'
+import { expect, fixture, html } from '@open-wc/testing'
+
+let table
+
+const randomPrefix = () => Math.random().toString(36).substring(2, 15)
+
+function addRow(title) {
+  const row = document.createElement('tr')
+  const cell = document.createElement('td')
+  cell.textContent = title
+  row.appendChild(cell)
+  table.querySelector('tbody').appendChild(row)
+}
+
+async function setup() {
+  customElements.define('sortable-table', SortableTable)
+  const document = await fixture(
+    html`<sortable-table>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </sortable-table>`
+  )
+  table = document.querySelector('table')
+  Array.from({ length: 100 }).forEach((_, index) => {
+    addRow(`${randomPrefix()} ${index + 1}`)
+  })
+}
+
+before(setup)
+
+describe('Sortable Table Tests', () => {
+  it('should have 100 rows', () => {
+    const rows = table.querySelectorAll('tbody tr')
+    expect(rows.length).to.equal(100)
+  })
+
+  it('should sort rows alphabetically when clicked', async () => {
+    // Simulate a click on the header to sort
+    const header = table.querySelector('thead th')
+    header.click()
+
+    // Wait for sorting to complete
+    await new Promise((resolve) => setTimeout(resolve, 100))
+
+    // For all 100 rows, check if they are sorted
+    const sortedRows = Array.from(table.querySelectorAll('tbody tr td')).map(
+      (cell) => cell.textContent
+    )
+    const expectedSortedRows = sortedRows.slice().sort()
+    expect(sortedRows).to.deep.equal(expectedSortedRows)
+  })
+})

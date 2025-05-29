@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sortable Table</title>
+    <link rel="stylesheet" href="/node_modules/@picocss/pico/css/pico.min.css" />
+</head>
+<body>
+    <main class="container">
+        <h1>Sortable Table Example</h1>
+        <sortable-table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>30</td>
+                        <td>New York</td>
+                    </tr>
+                    <tr>
+                        <td>Jon Doe</td>
+                        <td>31</td>
+                        <td>Paris</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>26</td>
+                        <td>London</td>
+                    </tr>
+                    <tr>
+                        <td>Adam Doe</td>
+                        <td>31</td>
+                        <td>Detroit</td>
+                    </tr>
+                    <tr>
+                        <td>Megan Smith</td>
+                        <td>25</td>
+                        <td>San Fransisco</td>
+                    </tr>
+                </tbody>
+        </sortable-table>
+    </main>
+</body>
+<script type="module" src="/src/index.mjs"></script>
+</html>
