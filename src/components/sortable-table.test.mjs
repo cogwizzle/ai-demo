@@ -1,6 +1,7 @@
 import SortableTable from './sortable-table.mjs'
 import { expect, fixture, html } from '@open-wc/testing'
 
+/** @type {HTMLElement | undefined} */
 let table
 
 const randomPrefix = () => Math.random().toString(36).substring(2, 15)
@@ -13,7 +14,7 @@ function addRow(title) {
   const cell = document.createElement('td')
   cell.textContent = title
   row.appendChild(cell)
-  table.querySelector('tbody').appendChild(row)
+  table?.querySelector('tbody')?.appendChild(row)
 }
 
 async function setup() {
@@ -30,7 +31,10 @@ async function setup() {
       </table>
     </sortable-table>`
   )
-  table = document.querySelector('table')
+  table = document.querySelector('table') ?? undefined
+  if (!table) {
+    throw new Error('Table element not found')
+  }
   Array.from({ length: 100 }).forEach((_, index) => {
     addRow(`${randomPrefix()} ${index + 1}`)
   })
@@ -40,22 +44,30 @@ before(setup)
 
 describe('Sortable Table Tests', () => {
   it('should have 100 rows', () => {
-    const rows = table.querySelectorAll('tbody tr')
+    const rows = table?.querySelectorAll('tbody tr')
+    if (!rows) {
+      throw new Error('Rows not found in the table')
+    }
     expect(rows.length).to.equal(100)
   })
 
   it('should sort rows alphabetically when clicked', async () => {
     // Simulate a click on the header to sort
-    const header = table.querySelector('thead th')
-    header.click()
+    const header = table?.querySelector('thead th')
+    if (!header) {
+      throw new Error('Header not found in the table')
+    }
+    header?.click()
 
     // Wait for sorting to complete
     await new Promise((resolve) => setTimeout(resolve, 100))
 
+    const rows = table?.querySelectorAll('tbody tr')
+    if (!rows) {
+      throw new Error('Rows not found in the table after sorting')
+    }
     // For all 100 rows, check if they are sorted
-    const sortedRows = Array.from(table.querySelectorAll('tbody tr td')).map(
-      (cell) => cell.textContent
-    )
+    const sortedRows = Array.from(rows).map((cell) => cell.textContent)
     const expectedSortedRows = sortedRows.slice().sort()
     expect(sortedRows).to.deep.equal(expectedSortedRows)
   })
